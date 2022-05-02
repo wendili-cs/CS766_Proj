@@ -36,7 +36,7 @@ def main():
         )
         image = load_local_image(uploaded_file)
     else:
-        image = Image.open("examples/"+example2file[use_example]).convert('RGB'))
+        image = Image.open("examples/"+example2file[use_example]).convert('RGB')
 
     if image is not None:
         st.image(image, caption="Input license plate image")
