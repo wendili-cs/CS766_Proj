@@ -3,6 +3,8 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 from io import BytesIO
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 
 app_title = "A Robust License Plate Recognition System based on Domain Adaptation"
 
@@ -22,6 +24,9 @@ def main():
     uploaded_file = st.file_uploader("Upload a licence plate picture to do the recognition", type=['png', 'jpg'])
     uploaded_file = st.sidebar.file_uploader(" ")
     image = load_local_image(uploaded_file)
+    
+    if st.button('Recognize') and image:
+        st.write('Results')
 
     if image is not None:
         st.image(image)
