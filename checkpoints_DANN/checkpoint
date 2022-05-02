@@ -1,0 +1,2 @@
+model_checkpoint_path: "fn"
+all_model_checkpoint_paths: "fn"
