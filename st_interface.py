@@ -21,15 +21,17 @@ def load_local_image(uploaded_file):
 def main():
     st.set_page_config(page_title=app_title)
 
-    uploaded_file = st.file_uploader("Upload a licence plate picture to do the recognition", type=['png', 'jpg'])
+    uploaded_file = st.file_uploader("Upload a licence plate image to do the recognition (current trained model for Chinese licence plate):", type=['png', 'jpg'])
     uploaded_file = st.sidebar.file_uploader(" ")
     image = load_local_image(uploaded_file)
+    
+    if image is not None:
+        st.image(image, caption='Input license plate image')
     
     if st.button('Recognize') and image is not None:
         st.write('Results')
 
-    if image is not None:
-        st.image(image)
+    
 
 if __name__ == "__main__":
     main()
