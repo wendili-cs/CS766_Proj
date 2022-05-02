@@ -33,14 +33,15 @@ def main():
     if image is not None:
         st.image(image, caption="Input license plate image")
 
+    model_name = st.sidebar.selectbox("Select a recognition model", ("Logistic Regression", "SVM"))
+
     if st.button("Recognize") and image is not None:
         cropped_list = split_character(image)
         if not len(cropped_list):
             st.write("Sorry, splitting process failed, please try another image.")
         else:
-            model_name = st.radio("Select a recognition model", ("Logistic Regression", "SVM"))
             model = load_model(model_name)
-            results = do_predict(model)
+            results = do_predict(model, cropped_list)
             show_str = "The recognized result is: {"
             for each in results:
                 show_str += each + " "
