@@ -87,6 +87,7 @@ def split_character(img_input, show_image=False):
     box_infos = std.detect(img_input, resized_shape=(320, 960))
     img = box_infos["detected_texts"][0]["cropped_img"]
 
+    # Algorithm source: https://blog.csdn.net/twilight737/article/details/118190551
     # img1 : resize image
     img1 = cv2.resize(img, (320, 100), interpolation=cv2.INTER_AREA)
     # img2 : gray image
