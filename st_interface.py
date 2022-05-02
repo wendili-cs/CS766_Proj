@@ -27,7 +27,7 @@ def main():
     # uploaded_file = st.sidebar.file_uploader(" ")
     
     model_name = st.sidebar.selectbox("Select a recognition model", ("Logistic Regression", "SVM"))
-    use_example = st.sidebar.selectbox("Select a recognition model", ["Upload by myself"] + [i for i in example2file])
+    use_example = st.sidebar.selectbox("Choose an image to recognize", ["Upload by myself"] + [i for i in example2file])
     
     if use_example == "Upload by myself":
         uploaded_file = st.file_uploader(
