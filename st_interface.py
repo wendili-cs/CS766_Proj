@@ -25,7 +25,7 @@ def main():
     uploaded_file = st.sidebar.file_uploader(" ")
     image = load_local_image(uploaded_file)
     
-    if st.button('Recognize') and image:
+    if st.button('Recognize') and image is not None:
         st.write('Results')
 
     if image is not None:
