@@ -32,7 +32,7 @@ def main():
 
     if image is not None:
         st.image(image, caption="Input license plate image")
-        print("image shape:", image.shape)
+        st.write("Debug: image shape:", image.shape)
 
     model_name = st.sidebar.selectbox("Select a recognition model", ("Logistic Regression", "SVM"))
 
