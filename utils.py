@@ -42,6 +42,18 @@ label2index = {
 }
 index2label = dict(zip(label2index.values(), label2index.keys()))
 
+example2file = {
+    "Example 1": "1.png",
+    "Example 2": "2.png",
+    "Example 3": "3.png",
+    "Example 4": "4.png",
+    "Example 5": "5.jpg",
+    "Example 6": "6.jpg",
+    "Example 7": "7.jpg",
+    "Example 8": "8.jpg",
+    "Example 9": "9.jpg",
+}
+
 
 def load_model(model_name="Logistic Regression"):
     """

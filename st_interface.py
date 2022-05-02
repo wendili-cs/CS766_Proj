@@ -5,7 +5,7 @@ from PIL import Image
 from io import BytesIO
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
-from utils import split_character, do_predict, load_model
+from utils import split_character, do_predict, load_model, example2file
 
 app_title = "A Robust License Plate Recognition System based on Domain Adaptation"
 
@@ -22,19 +22,28 @@ def load_local_image(uploaded_file):
 
 def main():
     st.set_page_config(page_title=app_title)
-
-    uploaded_file = st.file_uploader(
-        "Upload a licence plate image to do the recognition (current trained model for Chinese licence plate):",
-        type=["png", "jpg"],
-    )
+    image = None # init
+    
     # uploaded_file = st.sidebar.file_uploader(" ")
-    image = load_local_image(uploaded_file)
+    
+    model_name = st.sidebar.selectbox("Select a recognition model", ("Logistic Regression", "SVM"))
+    use_example = st.sidebar.selectbox("Select a recognition model", ["Upload by myself"] + [i for i in example2file])
+    
+    if use_example == "Upload by myself":
+        uploaded_file = st.file_uploader(
+            "Upload a licence plate image to do the recognition (current trained model for Chinese licence plate):",
+            type=["png", "jpg"],
+        )
+        image = load_local_image(uploaded_file)
+    else:
+        image = Image.open("examples/"+example2file[use_example]).convert('RGB'))
 
     if image is not None:
         st.image(image, caption="Input license plate image")
         # st.write("Debug: image shape:", image.shape)
 
-    model_name = st.sidebar.selectbox("Select a recognition model", ("Logistic Regression", "SVM"))
+    
+    
 
     if st.button("Recognize") and image is not None:
         cropped_list = split_character(image)
