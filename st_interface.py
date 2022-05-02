@@ -14,7 +14,7 @@ app_title = "A Robust License Plate Recognition System based on Domain Adaptatio
 def load_local_image(uploaded_file):
     if uploaded_file is not None:
         bytes_data = uploaded_file.getvalue()
-        image = np.array(Image.open(BytesIO(bytes_data)))
+        image = np.array(Image.open(BytesIO(bytes_data)).convert('RGB'))
         return image
     else:
         return None
@@ -32,7 +32,7 @@ def main():
 
     if image is not None:
         st.image(image, caption="Input license plate image")
-        st.write("Debug: image shape:", image.shape)
+        # st.write("Debug: image shape:", image.shape)
 
     model_name = st.sidebar.selectbox("Select a recognition model", ("Logistic Regression", "SVM"))
 
