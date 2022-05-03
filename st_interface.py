@@ -26,12 +26,20 @@ def main():
 
     # uploaded_file = st.sidebar.file_uploader(" ")
 
+    da_methods = ["Domain-Adversarial Neural Networks", "Correlation Alignment (CORAL)"]
     model_name = st.sidebar.selectbox(
         "Select a recognition model",
-        ("Logistic Regression", "SVM", "Domain-Adversarial Neural Networks", "Correlation Alignment (CORAL)"),
+        ["Logistic Regression", "SVM"] + da_methods,
     )
-    use_example = st.sidebar.selectbox("Choose an image to recognize", ["Upload by myself"] + [i for i in example2file])
 
+    scenario_select = None
+    if model_name in da_methods:
+        scenario_select = st.sidebar.selectbox(
+            "You choose a domain adaptation method, please select a target domain",
+            ["Dark night", "Rainy, snow, or fog", "Far or near to the camera", "Other challenging scenarios"],
+        )
+
+    use_example = st.sidebar.selectbox("Choose an image to recognize", ["Upload by myself"] + [i for i in example2file])
     if use_example == "Upload by myself":
         uploaded_file = st.file_uploader(
             "Upload a licence plate image to do the recognition (current trained model for Chinese licence plate):",
