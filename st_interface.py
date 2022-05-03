@@ -26,7 +26,10 @@ def main():
 
     # uploaded_file = st.sidebar.file_uploader(" ")
 
-    model_name = st.sidebar.selectbox("Select a recognition model", ("Logistic Regression", "SVM"))
+    model_name = st.sidebar.selectbox(
+        "Select a recognition model",
+        ("Logistic Regression", "SVM", "Domain-Adversarial Neural Networks", "Correlation Alignment (CORAL)"),
+    )
     use_example = st.sidebar.selectbox("Choose an image to recognize", ["Upload by myself"] + [i for i in example2file])
 
     if use_example == "Upload by myself":
@@ -48,11 +51,14 @@ def main():
             st.write("Sorry, splitting process failed, please try another image.")
         else:
             model = load_model(model_name)
-            results = do_predict(model, cropped_list)
-            show_str = "The recognized result is: {"
-            for each in results:
-                show_str += each + " "
-            show_str += "}"
+            if model is None:
+                show_str = "Model is still under construction, please try another one now."
+            else:
+                results = do_predict(model, cropped_list)
+                show_str = "The recognized result is: {"
+                for each in results:
+                    show_str += each + " "
+                show_str += "}"
             st.write(show_str)
 
 

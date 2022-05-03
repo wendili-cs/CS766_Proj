@@ -61,6 +61,7 @@ def load_model(model_name="Logistic Regression"):
         "Logistic Regression": Logistic regression model
         "SVM": Support vector machine model
     """
+    model = None
     if model_name == "Logistic Regression":
         with open("models/lgr.pkl", "rb") as f:
             model = pickle.load(f)
