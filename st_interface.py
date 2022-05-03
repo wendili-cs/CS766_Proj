@@ -60,7 +60,7 @@ def main():
         else:
             model = load_model(model_name)
             if model is None:
-                show_str = "Model is still under construction, please try another one now."
+                show_str = "Selected model is still under construction, please try another one now."
             else:
                 results = do_predict(model, cropped_list)
                 show_str = "The recognized result is: {"
