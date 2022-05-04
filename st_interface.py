@@ -44,7 +44,7 @@ def main():
     if use_example == "Upload by myself":
         uploaded_file = st.file_uploader(
             "Upload a licence plate image to do the recognition (current trained model for Chinese licence plate):",
-            type=["png", "jpg"],
+            type=["png", "jpg", "jpeg"],
         )
         image = load_local_image(uploaded_file)
     else:
