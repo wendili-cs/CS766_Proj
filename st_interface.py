@@ -7,6 +7,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from utils import split_character, do_predict, load_model, example2file
 
+
 app_title = "A Robust License Plate Recognition System based on Domain Adaptation"
 
 
@@ -58,11 +59,11 @@ def main():
         if not len(cropped_list):
             st.write("Sorry, splitting process failed, please try another image.")
         else:
-            model = load_model(model_name)
+            model = load_model(model_name, scenario_select)
             if model is None:
                 show_str = "Selected model is still under construction, please try another one now."
             else:
-                results = do_predict(model, cropped_list)
+                results = do_predict(model, cropped_list, model_name)
                 show_str = "The recognized result is: {"
                 for each in results:
                     show_str += each + " "

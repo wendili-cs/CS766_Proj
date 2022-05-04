@@ -2,6 +2,8 @@ from cnstd import CnStd
 import numpy as np
 import cv2
 import pickle
+from DANN import dann_model, dann_scenario_dict, save_check_pt
+
 
 std = CnStd(rotated_bbox=False)
 label2index = {
@@ -55,7 +57,7 @@ example2file = {
 }
 
 
-def load_model(model_name="Logistic Regression"):
+def load_model(model_name="Logistic Regression", scenario_select=None):
     """
     Currently available models:
         "Logistic Regression": Logistic regression model
@@ -68,12 +70,21 @@ def load_model(model_name="Logistic Regression"):
     elif model_name == "SVM":
         with open("models/svm.pkl", "rb") as f:
             model = pickle.load(f)
+    elif model_name == "Domain-Adversarial Neural Networks":
+        assert scenario_select in dann_scenario_dict
+        dann_model.load_weights(save_check_pt + dann_scenario_dict[scenario_select])
+        model = dann_model
     return model
 
 
-def do_predict(model, crop_list):
+def do_predict(model, crop_list, model_name=None):
     X = np.vstack(crop_list)
-    Y = model.predict(X)
+    if model_name == "Domain-Adversarial Neural Networks":
+        X = X.reshape([-1, 32, 16, 3])
+        Y = model.predict(X)
+        Y = np.argmax(Y, axis=1)
+    else:
+        Y = model.predict(X)
     ret = []
     for each in Y:
         ret.append(index2label[each])
