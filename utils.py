@@ -91,7 +91,7 @@ def do_predict(model, crop_list, model_name=None):
     return ret
 
 
-def split_character(img_input, show_image=False):
+def split_character(img_input, show_image=False, color_map="gray"):
     """
     img_input : original image
     """
@@ -159,8 +159,11 @@ def split_character(img_input, show_image=False):
             y2 = 80
             cv2.rectangle(crop_img, (x1, y1), (x2, y2), (0, 0, 255), 2)
             acrop = cv2.resize(crop_img[y1:y2, min(x1, x2) : max(x1, x2)], (16, 32), interpolation=cv2.INTER_AREA)
-            acrop = cv2.cvtColor(acrop, cv2.COLOR_RGB2GRAY)
-            crop_list.append(acrop.reshape([32 * 16]))
+            if color_map == "gray":
+                acrop = cv2.cvtColor(acrop, cv2.COLOR_RGB2GRAY)
+                crop_list.append(acrop.reshape([32 * 16]))
+            elif color_map == "rgb":
+                crop_list.append(acrop.reshape([32 * 16 * 3]))
 
     if show_image:
         cv2.namedWindow("final_crop_img")

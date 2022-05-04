@@ -55,7 +55,10 @@ def main():
         # st.write("Debug: image shape:", image.shape)
 
     if st.button("Recognize") and image is not None:
-        cropped_list = split_character(image)
+        if model_name in da_methods:
+            cropped_list = split_character(image, color_map="rgb")
+        else:
+            cropped_list = split_character(image)
         if not len(cropped_list):
             st.write("Sorry, splitting process failed, please try another image.")
         else:
