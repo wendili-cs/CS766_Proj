@@ -2,6 +2,8 @@ from cnstd import CnStd
 import numpy as np
 import cv2
 import pickle
+from DANN import dann_model, dann_scenario_dict, save_check_pt
+
 
 std = CnStd(rotated_bbox=False)
 label2index = {
@@ -55,7 +57,7 @@ example2file = {
 }
 
 
-def load_model(model_name="Logistic Regression"):
+def load_model(model_name="Logistic Regression", scenario_select=None):
     """
     Currently available models:
         "Logistic Regression": Logistic regression model
@@ -68,19 +70,28 @@ def load_model(model_name="Logistic Regression"):
     elif model_name == "SVM":
         with open("models/svm.pkl", "rb") as f:
             model = pickle.load(f)
+    elif model_name == "Domain-Adversarial Neural Networks":
+        assert scenario_select in dann_scenario_dict
+        dann_model.load_weights(save_check_pt + dann_scenario_dict[scenario_select])
+        model = dann_model
     return model
 
 
-def do_predict(model, crop_list):
+def do_predict(model, crop_list, model_name=None):
     X = np.vstack(crop_list)
-    Y = model.predict(X)
+    if model_name == "Domain-Adversarial Neural Networks":
+        X = X.reshape([-1, 32, 16, 3])
+        Y = model.predict(X)
+        Y = np.argmax(Y, axis=1)
+    else:
+        Y = model.predict(X)
     ret = []
     for each in Y:
         ret.append(index2label[each])
     return ret
 
 
-def split_character(img_input, show_image=False):
+def split_character(img_input, show_image=False, color_map="gray"):
     """
     img_input : original image
     """
@@ -148,8 +159,11 @@ def split_character(img_input, show_image=False):
             y2 = 80
             cv2.rectangle(crop_img, (x1, y1), (x2, y2), (0, 0, 255), 2)
             acrop = cv2.resize(crop_img[y1:y2, min(x1, x2) : max(x1, x2)], (16, 32), interpolation=cv2.INTER_AREA)
-            acrop = cv2.cvtColor(acrop, cv2.COLOR_RGB2GRAY)
-            crop_list.append(acrop.reshape([32 * 16]))
+            if color_map == "gray":
+                acrop = cv2.cvtColor(acrop, cv2.COLOR_RGB2GRAY)
+                crop_list.append(acrop.reshape([32 * 16]))
+            elif color_map == "rgb":
+                crop_list.append(acrop.reshape([32 * 16 * 3]))
 
     if show_image:
         cv2.namedWindow("final_crop_img")
