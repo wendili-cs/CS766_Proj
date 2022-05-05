@@ -27,7 +27,7 @@ def main():
 
     # uploaded_file = st.sidebar.file_uploader(" ")
 
-    da_methods = ["Domain-Adversarial Neural Networks", "Correlation Alignment (CORAL)"]
+    da_methods = ["Domain-Adversarial Neural Networks", "Classification and Contrastive Semantic Alignment"]
     model_name = st.sidebar.selectbox(
         "Select a recognition model",
         ["Logistic Regression", "SVM"] + da_methods,
