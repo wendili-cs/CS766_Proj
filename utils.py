@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import pickle
 from DANN import dann_model, dann_scenario_dict, save_check_pt
+from CCSA import ccsa_model, save_CCSA, ccsa_scenario_dict
 
 
 std = CnStd(rotated_bbox=False)
@@ -74,6 +75,9 @@ def load_model(model_name="Logistic Regression", scenario_select=None):
         assert scenario_select in dann_scenario_dict
         dann_model.load_weights(save_check_pt + dann_scenario_dict[scenario_select])
         model = dann_model
+    elif model_name == "Classification and Contrastive Semantic Alignment":
+        assert scenario_select in ccsa_scenario_dict
+        ccsa_model.load_weights(save_CCSA + ccsa_scenario_dict[scenario_select])
     return model
 
 
