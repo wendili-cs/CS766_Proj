@@ -83,7 +83,7 @@ def load_model(model_name="Logistic Regression", scenario_select=None):
 
 def do_predict(model, crop_list, model_name=None):
     X = np.vstack(crop_list)
-    if model_name == "Domain-Adversarial Neural Networks":
+    if model_name == "Domain-Adversarial Neural Networks" or model_name == "Classification and Contrastive Semantic Alignment":
         X = X.reshape([-1, 32, 16, 3])
         Y = model.predict(X)
         Y = np.argmax(Y, axis=1)
