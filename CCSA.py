@@ -23,7 +23,7 @@ from PIL import Image
 img_h, img_w = 32, 16
 warnings.filterwarnings("ignore")
 warnings.simplefilter("ignore")
-save_CCSA = 'checkpoints_CCSA/'
+save_CCSA = "checkpoints_CCSA/"
 mapping = {
     "0": 0,
     "1": 1,
@@ -64,9 +64,9 @@ mapping = {
 
 def get_encoder(input_shape=(32, 16, 3)):
     model = Sequential()
-    model.add(Convolution2D(32, (3, 3), activation='relu', padding='valid', input_shape=input_shape))
+    model.add(Convolution2D(32, (3, 3), activation="relu", padding="valid", input_shape=input_shape))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Convolution2D(32, (3, 3), activation='relu'))
+    model.add(Convolution2D(32, (3, 3), activation="relu"))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
@@ -77,14 +77,14 @@ def get_encoder(input_shape=(32, 16, 3)):
 
 def get_task(input_shape=(168 * 3,)):
     model = Sequential()
-    model.add(Dense(168 * 3, activation='relu', input_shape=input_shape))
+    model.add(Dense(168 * 3, activation="relu", input_shape=input_shape))
     model.add(Dropout(0.5))
     model.add(Dense(34, activation="softmax"))
     return model
 
 
 def process_image(image):
-    img = image.convert('RGB')
+    img = image.convert("RGB")
     img = img.resize([img_w, img_h], Image.ANTIALIAS)
     img = np.asarray(img)
     return img
@@ -129,4 +129,3 @@ ccsa_scenario_dict = {
     "Far or near to the camera": "fn",
     "Other challenging scenarios": "challenge",
 }
-
